@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  ActionIcon,
   Container,
   SimpleGrid,
   Input,
@@ -10,7 +11,13 @@ import {
 } from "@mantine/core";
 import { List, ThemeIcon } from "@mantine/core";
 
-import { IconCircleCheck, IconCircleDashed } from "@tabler/icons-react";
+import {
+  IconBasket,
+  IconCircleCheck,
+  IconBasketFilled,
+  IconCircleDashed,
+  IconShoppingCart,
+} from "@tabler/icons-react";
 import Card from "./components/Card/Card";
 import "./App.css";
 
@@ -64,8 +71,13 @@ function App() {
           />
         </Input.Wrapper>
         <Button onClick={() => setSearchValue("")}>Temizle</Button>
-        <Indicator color="red" size={30} label={basketItems.length}>
-          <Button onClick={() => setOpened(true)}>Sepet</Button>
+        <Indicator color="red" size={22} label={basketItems.length}>
+          <Button
+            leftIcon={<IconBasket size={25} />}
+            onClick={() => setOpened(true)}
+          >
+            Sepet
+          </Button>
         </Indicator>
       </Group>
 
