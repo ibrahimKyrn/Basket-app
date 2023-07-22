@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {
-  ActionIcon,
+  Badge,
   Container,
   SimpleGrid,
   Input,
@@ -23,31 +23,37 @@ import "./App.css";
 
 const storeItems = [
   {
+    id: 100,
     name: "Kamera",
     src: "camera",
     price: 10,
   },
   {
+    id: 102,
     name: "Araba",
     src: "car",
     price: 20,
   },
   {
+    id: 103,
     name: "Gunes Gozlugu",
     src: "glasses",
     price: 30,
   },
   {
+    id: 104,
     name: "Kulaklik",
     src: "headphone",
     price: 10,
   },
   {
+    id: 105,
     name: "Ayakkabi",
     src: "shoe",
     price: 20,
   },
   {
+    id: 106,
     name: "Akilli Saat",
     src: "watch",
     price: 30,
@@ -61,6 +67,15 @@ function App() {
   let filteredItems = storeItems.filter(
     (item) => item.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
   );
+  let addToBasket = ({ id, name }) => {
+    let basketIndex = basketItems.findIndex((item) => item.id === id);
+    if (basketIndex >= 0) {
+      let _baasketItems = [...basketItems];
+      _baasketItems[basketIndex].count += 1;
+    } else {
+      setBasketItems([...basketItems, { id, name, count: 1 }]);
+    }
+  };
   return (
     <Container>
       <Group align="end" position="center">
@@ -82,14 +97,14 @@ function App() {
       </Group>
 
       <SimpleGrid cols={3} className="Store">
-        {filteredItems.map(({ name, src, price }) => {
+        {filteredItems.map(({ id, name, src, price }) => {
           return (
             <Card
               key={name}
               name={name}
               src={src}
               price={price}
-              onAdd={() => setBasketItems([...basketItems, { name }])}
+              onAdd={() => addToBasket({ name, id })}
             />
           );
         })}{" "}
@@ -106,8 +121,14 @@ function App() {
             </ThemeIcon>
           }
         >
-          {basketItems.map(({ name }, index) => (
-            <List.Item key={index}>{name}</List.Item>
+          {basketItems.map(({ name, count }, index) => (
+            <List.Item key={index}>
+              <Group>
+                {" "}
+                {name}
+                <Badge>{count}</Badge>
+              </Group>
+            </List.Item>
           ))}
         </List>
       </Drawer>
