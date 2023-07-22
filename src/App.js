@@ -11,13 +11,7 @@ import {
 } from "@mantine/core";
 import { List, ThemeIcon } from "@mantine/core";
 
-import {
-  IconBasket,
-  IconCircleCheck,
-  IconBasketFilled,
-  IconCircleDashed,
-  IconShoppingCart,
-} from "@tabler/icons-react";
+import { IconBasket, IconCircleCheck } from "@tabler/icons-react";
 import Card from "./components/Card/Card";
 import "./App.css";
 
@@ -67,15 +61,28 @@ function App() {
   let filteredItems = storeItems.filter(
     (item) => item.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
   );
+
   let addToBasket = ({ id, name }) => {
     let basketIndex = basketItems.findIndex((item) => item.id === id);
+
     if (basketIndex >= 0) {
       let _baasketItems = [...basketItems];
       _baasketItems[basketIndex].count += 1;
     } else {
       setBasketItems([...basketItems, { id, name, count: 1 }]);
     }
+
+    console.log(basketItemsNumber);
   };
+
+  //let basketItemsNumber = ()=>{}
+
+  let basketItemsNumber = 0;
+
+  for (let index = 0; index < basketItems.length; index++) {
+    basketItemsNumber += basketItems[index].count;
+  }
+
   return (
     <Container>
       <Group align="end" position="center">
@@ -86,7 +93,7 @@ function App() {
           />
         </Input.Wrapper>
         <Button onClick={() => setSearchValue("")}>Temizle</Button>
-        <Indicator color="red" size={22} label={basketItems.length}>
+        <Indicator color="red" size={22} label={basketItemsNumber}>
           <Button
             leftIcon={<IconBasket size={25} />}
             onClick={() => setOpened(true)}
